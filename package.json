@@ -1,0 +1,19 @@
+{
+  "name": "messagingapp",
+  "version": "1.0.0",
+  "description": "Messaging App",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raymanl33/MessagingAPP.git"
+  },
+  "author": "Raymond",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raymanl33/MessagingAPP/issues"
+  },
+  "homepage": "https://github.com/raymanl33/MessagingAPP#readme"
+}
