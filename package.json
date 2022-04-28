@@ -18,6 +18,11 @@
   "homepage": "https://github.com/raymanl33/MessagingAPP#readme",
   "dependencies": {
     "dotenv": "^16.0.0",
-    "firebase": "^9.6.11"
+    "ejs": "^3.1.7",
+    "express": "^4.18.0",
+    "firebase": "^9.6.11",
+    "nodejs": "^0.0.0",
+    "require": "^2.4.20",
+    "requirejs": "^2.3.6"
   }
 }
