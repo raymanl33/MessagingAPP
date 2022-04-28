@@ -1,5 +1,27 @@
+const messageController = require("./controller/messageController")
+
+
+// import dotenv
 require('dotenv').config()
 
+// import express
+const express = require("express");
+const app = express();
+
+// set views
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+// public folder express
+const path = require("path");
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static('public'))
+
+
+
+const host = process.env.HOST;
+const port = process.env.PORT;
 
 const apiKey = process.env.APIKEY;
 const authDomain= process.env.AUTHDOMAIN;
@@ -9,33 +31,20 @@ const messaginSenderId = process.env.MESSAGINGSENDERID;
 const appId = process.env.APPID;
 const measurementId = process.env.MEASUREMENTID;
 
-//Firebase Set up =======================================
-const firebaseConfig = {
-    apiKey: apiKey,
-    authDomain: authDomain,
-    projectId: projectID,
-    storageBucket: storageBucket,
-    messagingSenderId: messaginSenderId,
-    appId: appId,
-    measurementId: measurementId
-  };
-  
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-//chat box
-const messages = document.getElementById("messages");
-const textbox = document.getElementById("textbox");
-const button = document.getElementById("button");
+const firebase = [apiKey, authDomain, projectID, storageBucket, messaginSenderId ,appId, measurementId]
 
 
 
-
-
-// When the send button gets click the message gets sent to firebase
-button.addEventListener("click", () => {
-    let newMessage = document.createElement("li");
-    newMessage.innerHTML = textbox.value;
-    messages.appendChild(newMessage);
-    textbox.value = '';
+app.get("/", (req, res) => {
+    res.render('./index')
 });
+
+router.post( "/", messageController.upload);
+
+
+
+app.listen(port, function () {
+    console.log(
+      `Server running. Visit: ${host}:${port} in your browser 🚀`
+    );
+  });
