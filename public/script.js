@@ -46,18 +46,29 @@ text.onSnapshot(doc => {
 const messages = document.querySelector("#messages");
 const textbox = document.querySelector("#textbox");
 const button = document.querySelector("#button");
-
+let count = 0
 // When the send button gets click the message gets sent to firebase
 button.addEventListener("click", (e) => {
     e.stopPropagation();
     let JSONobj = {};
     let messageObj = {};
+    let field_name = `message.${count+1}`
     messageObj.text = textbox.value;
+
+    text.get()
+    .then(doc => {
+    if(text) {
+      JSONobj = {
+      
+        'message' : messageObj
+      };
+      db.collection('messages').doc(field_name).set(JSONobj)
+    }
+    })
+ 
   
-    JSONobj = {
-      "message.message" : messageObj
-    };
-    text.update(JSONobj); //need to change to insert instead of update
+    
+    // text.set(JSONobj); //need to change to insert instead of update
 
 
 
