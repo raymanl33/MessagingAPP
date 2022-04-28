@@ -28,6 +28,7 @@ const messaginSenderId = process.env.MESSAGINGSENDERID;
 const appId = process.env.APPID;
 const measurementId = process.env.MEASUREMENTID;
 
+
 const firebase = [apiKey, authDomain, projectID, storageBucket, messaginSenderId ,appId, measurementId]
 
 
@@ -43,3 +44,5 @@ app.listen(port, function () {
       `Server running. Visit: ${host}:${port} in your browser 🚀`
     );
   });
+
+module.exports = {firebase};
