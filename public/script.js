@@ -60,7 +60,7 @@ button.addEventListener("click", (e) => {
     text.update(JSONobj); //need to change to insert instead of update
 
 
-
+    
     let newMessage = document.createElement("li");
     newMessage.innerHTML = textbox.value;
     messages.appendChild(newMessage);

@@ -1,3 +1,6 @@
+// const messageController = require("./controller/messageController")
+
+
 // import dotenv
 require('dotenv').config()
 
@@ -36,6 +39,8 @@ const firebase = [apiKey, authDomain, projectID, storageBucket, messaginSenderId
 app.get("/", (req, res) => {
     res.render('./index')
 });
+
+// router.post( "/", messageController.upload);
 
 
 
