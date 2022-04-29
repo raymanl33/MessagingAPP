@@ -1,4 +1,13 @@
-* {
+/* * {
     background-color: rgb(52, 110, 157);
+}
+ */
+ .center {
+    border: 5px solid #0099ff;
+    text-align: center;
+    }
+
+#message {
+    list-style-type: none
 }
 
