@@ -25,10 +25,11 @@ const text = db.collection('messages');
 send.addEventListener("click", async(e) => {
     e.preventDefault();
 
-    var newMessage = document.createElement("li");
+    let newMessage = document.createElement("li");
     newMessage.innerHTML = textbox.value;
     messages.appendChild(newMessage);
 
+    
     await text.add({
         text: textbox.value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
