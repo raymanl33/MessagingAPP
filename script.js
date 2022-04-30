@@ -20,6 +20,28 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const text = db.collection('messages');
 
+
+
+
+
+text.get().then((querySnapshot) => {
+    // uses querySnapshot to get a list of each document inside the collection
+    // querySnapshot contains the results of a query 
+    querySnapshot.forEach((text_mssg) => {
+        let doc_id = text_mssg.id;
+        const textDoc = text.doc(doc_id);
+        // onSnapshot for real time update of text messages
+        textDoc.onSnapshot(doc => {
+            let message = doc.data().text;
+            let createdAt = doc.data().createdAt;
+            let newMessage = document.createElement("li");
+            newMessage.innerHTML = message
+            messages.appendChild(newMessage)
+            console.log(createdAt);
+        })
+    })
+});
+
 // When the send button gets clicked the message will be sent to firebase
 send.addEventListener("click", async(e) => {
     e.preventDefault();
