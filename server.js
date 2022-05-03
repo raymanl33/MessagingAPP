@@ -6,6 +6,13 @@ const app = express()
 require('dotenv').config()
 const host = process.env.HOST;
 const port = process.env.PORT;
+const apikey = process.env.APIKEY;
+const authDomain = process.env.AUTHDOMAIN;
+const projectId = process.env.PROJECTID;
+const storageBucket = process.env.STORAGEBUCKET;
+const messagingSenderId = process.env.MESSAGINSENDERID;
+const appId = process.env.APPID;
+const measurementId = process.env.MEASUREMENDID;
 
 
 // set view engine
