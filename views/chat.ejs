@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <title>Chat Window</title>
+        <meta name="description" content="A simple messaging application using HTML, CSS, Javascript">
+        <meta name="author" content="Summer2022">
+        
+        <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+        <link rel="stylesheet" href="./style.css">
+        <!-- <link rel="shortcut icon" href="#"> -->
+    </head>
+    <body> 
+        
+          <div class="center">
+        <h1>Messaging Window</h1>
+        <div id="wrapper">
+            <div id="menu">
+                <p class="welcome">Welcome, <b></b></p>
+            </div>
+            <div id="chatbox">
+  
+                <ul id="messages"></ul>
+            </div>
+            <div id="user">
+                <textarea id="text" cols="35" rows="0">Type Message Here</textarea>
+                <button id="send">Send</button>
+                <input type="file" id="image_input" accept="image/png, image/jpg">
+            </div>
+        </div>
+        
+        <!-- Below replace spacing with window for text to go to-->
+        <script type="module" src="../script.js"></script>
+    </body>
+</html>
