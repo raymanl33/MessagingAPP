@@ -18,15 +18,19 @@
         
           <div class="center">
         <h1>Messaging Window</h1>
-      
-        <ul id="messages" style="list-style: none;"></ul>
-        <textarea id="text" cols="35" rows="2">Type Message Here</textarea>
-        <!-- Below replace spacing with window for text to go to-->
-        <button id="send">Send</button>
-        <input type="file" id="image_input" accept="image/png, image/jpg">
-        <div id="display_image"> </div>
-        <script type="module" src="../script.js"></script>
+        <div id="wrapper">
+            <div id="menu">
+                <p class="welcome">Welcome, <b></b></p>
+            </div>
+            <div id="chatbox">
+                <ul id="messages"></ul>
+            </div>
+            <div id="user">
+                <textarea id="text" cols="35" rows="0">Type Message Here</textarea>
+                <button id="send">Send</button>
+            </div>
         </div>
-
+        <!-- Below replace spacing with window for text to go to-->
+        <script type="module" src="script.js"></script>
     </body>
 </html>
