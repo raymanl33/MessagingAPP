@@ -16,8 +16,15 @@
     </head>
     <body>
         <h1>Messaging Window</h1>
-        <ul id="messages"></ul>
-        <textarea id="text" cols="35" rows="2">Type Message Here</textarea>
+        <div id="wrapper">
+            <div id="menu">
+                <p class="welcome">Welcome, <b></b></p>
+            </div>
+            <div id="chatbox">
+                <ul id="messages"></ul>
+            </div>
+        </div>
+        <textarea id="text" cols="35" rows="1">Type Message Here</textarea>
         <!-- Below replace spacing with window for text to go to-->
         <button id="send">Send</button>
         <script type="module" src="script.js"></script>
