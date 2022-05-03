@@ -2,9 +2,11 @@
   "name": "messagingapp",
   "version": "1.0.0",
   "description": "Messaging App",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "npx nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,12 @@
   "bugs": {
     "url": "https://github.com/raymanl33/MessagingAPP/issues"
   },
-  "homepage": "https://github.com/raymanl33/MessagingAPP#readme"
+  "homepage": "https://github.com/raymanl33/MessagingAPP#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "firebase": "^9.6.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
 }
