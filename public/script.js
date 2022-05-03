@@ -49,19 +49,17 @@ text.get().then((querySnapshot) => {
 // When the send button gets clicked the message will be sent to firebase
 send.addEventListener("click", async(e) => {
     e.preventDefault();
-
     let newMessage = document.createElement("li");
     newMessage.innerHTML = textbox.value;
     messages.appendChild(newMessage);
     console.log(textbox.value)
-
-    
     await text.add({
         text: textbox.value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
     })
 
 });
+
 
 // upload image 
 const image_input = document.querySelector('#chatbox')
