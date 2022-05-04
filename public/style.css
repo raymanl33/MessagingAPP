@@ -11,10 +11,12 @@
 
   ul {
     list-style-type: none;
+    text-align: right;
   }
 
   h1 {
       text-align: center;
+
   }
    
   #wrapper {
