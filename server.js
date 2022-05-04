@@ -6,13 +6,6 @@ const app = express()
 require('dotenv').config()
 const host = process.env.HOST;
 const port = process.env.PORT;
-const apikey = process.env.APIKEY;
-const authDomain = process.env.AUTHDOMAIN;
-const projectId = process.env.PROJECTID;
-const storageBucket = process.env.STORAGEBUCKET;
-const messagingSenderId = process.env.MESSAGINSENDERID;
-const appId = process.env.APPID;
-const measurementId = process.env.MEASUREMENDID;
 
 
 // set view engine
@@ -22,17 +15,16 @@ app.set('view engine', 'ejs');
 // set static folder directory
 app.use(express.static(__dirname + '/public'));
 
-// Home page
+// render home page
 app.get('/', (req, res) => {
     res.render('home.ejs')
 })
 
 
-// Chat page
+// Render chat page
 app.get('/chataway', (req, res) => {
     res.render('chat.ejs')
 })
-
 
 
 
@@ -41,3 +33,16 @@ app.listen(port, function () {
       `Server running. Visit: ${host}:${port} in your browser 🚀`
     );
   });
+
+// pass export env variables <- need to figure out how to import 
+let env_variables = { 
+  apikey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINSENDERID,
+  appId: process.env.APPID,
+  measurementId: process.env.MEASUREMENDID
+};
+
+module.exports = env_variables;

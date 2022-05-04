@@ -1,10 +1,3 @@
-
-// // ???
-// const firebase = require("../index");
-// console.log(firebase)
-;
-
-
 //chat box
 let messages = document.querySelector("#messages");
 let textbox = document.querySelector("#text");
@@ -31,8 +24,6 @@ const text = db.collection('messages');
 
 
 
-
-
 text.get().then((querySnapshot) => {
     // uses querySnapshot to get a list of each document inside the collection
     // querySnapshot contains the results of a query 
@@ -44,13 +35,9 @@ text.get().then((querySnapshot) => {
             let message = doc.data().text;
             let createdAt = doc.data().createdAt;
             let newMessage = document.createElement("li");
-            // use the timestamp string from firebase and append it to index.html
-            let timestamp = document.createElement('li')
-            newMessage.innerHTML = `Raymond: ${message}`
-            timestamp.innerHTML =  `→ ${createdAt}`
+            newMessage.innerHTML = message
             messages.appendChild(newMessage)
-            messages.appendChild(timestamp)
-            
+            console.log(createdAt);
         })
     })
 });
@@ -60,50 +47,33 @@ text.get().then((querySnapshot) => {
 // When the send button gets clicked the message will be sent to firebase
 send.addEventListener("click", async(e) => {
     e.preventDefault();
+
     let newMessage = document.createElement("li");
-    let timestamp = document.createElement('li');
-    // create a new date object and convert it to string type 
-    // then insert it into firebase
-    const current_time = new Date();
-    if (current_time.getMinutes().length === 1) { 
-        // checkig if getMinutes return only 1 digit
-        // if 1 digit add a 0 in front of minitues
-        let current = `${current_time.getHours()}:0${current_time.getMinutes()}`;
-        newMessage.innerHTML = `Raymod: ${textbox.value}`;
-        timestamp.innerHTML = `→ ${current}`;
-        messages.appendChild(newMessage);
-        messages.appendChild(timestamp)
-        console.log(textbox.value)
-        await text.add({
-            text: textbox.value,
-            createdAt: current
-        })
-    } else {
-        let current = `${current_time.getHours()}:${current_time.getMinutes()}`;
-        newMessage.innerHTML = `Raymod: ${textbox.value}`;
-        timestamp.innerHTML = `→ ${current}`;
-        messages.appendChild(newMessage);
-        messages.appendChild(timestamp)
-        console.log(textbox.value)
-        await text.add({
-            text: textbox.value,
-            createdAt: current
-        })
-    }
+    newMessage.innerHTML = textbox.value;
+    messages.appendChild(newMessage);
+    console.log(textbox.value)
+
+    
+    await text.add({
+        text: textbox.value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
 
 });
 
-
-// upload image 
-const image_input = document.querySelector('#chatbox')
+// upload image watch the video again!!!!
+const image_input = document.querySelector('#image_input')
 let uploaded_image = "";
 
 image_input.addEventListener("change", function() {
     const reader = new FileReader();
+ 
     reader.addEventListener("load", () => {
         uploaded_image = reader.result;
-        document.querySelector("#chatbox").style.backgroundImage = `url(${uploaded_image})`; 
+        document.querySelector("#display_image").style.backgroundImage = `url(${uploaded_image})`;
+        
     });
+   
     reader.readAsDataURL(this.files[0]);
 });
 
