@@ -2,23 +2,14 @@ const express = require('express')
 const app = express()
 app.set("view engine", "ejs")
 
-// app.get('/', (req, res) => {
-//     res.send('Hello World!')
-// })
-
-// app.get("/goodbye", (req,res) => {
-//     res.send("<h1>goodbye world!</h1>")
-// })
-
-
 
 app.get('/', (req, res) => {
-  res.send(`<h1>${Date()}</h1>`)
+  res.render("index.ejs")
 })
 
-app.use(express.static("views"))
+app.use(express.static(__dirname + '/public'));
 
 const port = 8080
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Server listening on port ${port} 🚀`)
 })
