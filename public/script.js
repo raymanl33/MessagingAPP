@@ -43,7 +43,7 @@ text.get().then((querySnapshot) => {
         textDoc.onSnapshot(doc => {
             let message = doc.data().text;
             let createdAt = doc.data().createdAt;
-            let newMessage = document.createElement("li");
+            let newMessages = document.createElement("li");
             // use the timestamp string from firebase and append it to index.html
             let timestamp = document.createElement('li')
             newMessage.innerHTML = `Raymond: ${message}`
