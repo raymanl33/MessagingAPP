@@ -46,9 +46,9 @@ text.get().then((querySnapshot) => {
             let newMessages = document.createElement("li");
             // use the timestamp string from firebase and append it to index.html
             let timestamp = document.createElement('li')
-            newMessage.innerHTML = `Raymond: ${message}`
+            newMessages.innerHTML = `Raymond: ${message}`
             timestamp.innerHTML =  `→ ${createdAt}`
-            messages.appendChild(newMessage)
+            messages.appendChild(newMessages)
             messages.appendChild(timestamp)
             
         })
@@ -65,10 +65,13 @@ send.addEventListener("click", async(e) => {
     // create a new date object and convert it to string type 
     // then insert it into firebase
     const current_time = new Date();
-    if (current_time.getMinutes().length === 1) { 
+    const minute = current_time.getMinutes().toString().length;
+    const periods = day(current_time)
+    if (minute === 1) { 
         // checkig if getMinutes return only 1 digit
         // if 1 digit add a 0 in front of minitues
-        let current = `${current_time.getHours()}:0${current_time.getMinutes()}`;
+        
+        let current = `${current_time.getHours()}:0${current_time.getMinutes()} ${periods}`;
         newMessage.innerHTML = `Raymod: ${textbox.value}`;
         timestamp.innerHTML = `→ ${current}`;
         messages.appendChild(newMessage);
@@ -79,7 +82,7 @@ send.addEventListener("click", async(e) => {
             createdAt: current
         })
     } else {
-        let current = `${current_time.getHours()}:${current_time.getMinutes()}`;
+        let current = `${current_time.getHours()}:${current_time.getMinutes()} ${periods}`;
         newMessage.innerHTML = `Raymod: ${textbox.value}`;
         timestamp.innerHTML = `→ ${current}`;
         messages.appendChild(newMessage);
@@ -93,6 +96,15 @@ send.addEventListener("click", async(e) => {
 
 });
 
+// check the hour and return whether it is AM or PM
+const day = (hour) => {
+    const day = hour.getHours()
+    if (day >= 12) {
+        return 'PM'
+    } else {
+        return 'AM'
+    }
+}
 
 // upload image 
 const image_input = document.querySelector('#chatbox')
