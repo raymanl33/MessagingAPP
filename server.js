@@ -7,6 +7,20 @@ require('dotenv').config()
 const host = process.env.HOST;
 const port = process.env.PORT;
 
+// import Auth0
+const { auth } = require('express-openid-connect');
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.SECRET,
+  baseURL: process.env.BASEURL,
+  clientID: process.env.CLIENTID,
+  issuerBaseURL: process.env.ISSUERURL
+};
+
+
+
+
 
 // set view engine
 app.set('view engine', 'ejs'); 
@@ -15,15 +29,38 @@ app.set('view engine', 'ejs');
 // set static folder directory
 app.use(express.static(__dirname + '/public'));
 
+// auth router attaches /login, /logout, and /callback routes to the baseURL
+app.use(auth(config));
+
 // render home page
 app.get('/', (req, res) => {
-    res.render('home.ejs')
+  console.log(`${req.oidc.isAuthenticated()}`)
+  res.render('home.ejs', {
+      isAuthenticated: req.oidc.isAuthenticated(),
+      user: req.oidc.user,
+  });
+})
+
+// render login page
+app.get('/login', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 })
 
 
 // Render chat page
 app.get('/chataway', (req, res) => {
-    res.render('chat.ejs')
+  if (!req.oidc.isAuthenticated()) {
+    res.render("home.ejs", {
+      isAuthenticated: req.oidc.isAuthenticated(),
+      user: req.oidc.user,
+    })
+ 
+  } else {
+    res.render('chat.ejs', {
+      isAuthenticated: req.oidc.isAuthenticated(),
+      user: req.oidc.user,
+    })
+  }
 })
 
 

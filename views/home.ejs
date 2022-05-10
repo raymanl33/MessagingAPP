@@ -24,16 +24,24 @@
         <div class="inner">
           <h3 class="masthead-brand">Social App</h3>
           <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">Log in</a>
-            <a class="nav-link" href="#">Register</a>
+            
+            <% if(!isAuthenticated) { %>
+            <a class="nav-link active" href="/">Home</a>
+            <a class="nav-link" href="/login/">Log in</a>
+            <a class="nav-link" href="/login/">Register</a>
+            <% } else { %>
+            <a class="nav-link active" href="/"><%=user.nickname%></a>
+            <a class="nav-link" href="/logout/">Log out</a>
+            
+            <% }  %>
+           
           </nav>
         </div>
       </header>
 
       <main role="main" class="inner cover">
         <h1 class="cover-heading">3AM Messaging App📱</h1>
-        <p class="lead">This messsaging app uses Node.js, html, css, bootstrap, and firebase</p>
+        <p class="lead">This messsaging app uses Node.js, html, css, bootstrap, Auth0, and firebase</p>
         <p class="lead">
           <a href="./chataway" class="btn btn-lg btn-secondary">Chat Away!</a>
         </p>
@@ -41,7 +49,7 @@
 
       <footer class="mastfoot mt-auto">
         <div class="inner">
-          <p>3AM Messaging App<a href="https://getbootstrap.com/"></a> by <a href="https://twitter.com/mdo">Raymond, Andrew, Nicholas</a>.</p>
+          <p>3AM Messaging App<a href="https://getbootstrap.com/"></a> by <a href="https://www.linkedin.com/in/raymond-l33/">Raymond</a>, <a href="https://www.linkedin.com/feed/">Andrew</a>,  <a href="https://www.linkedin.com/feed/">Nicholas.</a></p>
         </div>
       </footer>
     </div>
