@@ -31,9 +31,7 @@ const text = db.collection('messages');
 
 
 
-
-
-text.get().then((querySnapshot) => {
+text.orderBy("createdAt").get().then((querySnapshot) => {
     // uses querySnapshot to get a list of each document inside the collection
     // querySnapshot contains the results of a query 
     querySnapshot.forEach((text_mssg) => {
@@ -50,8 +48,7 @@ text.get().then((querySnapshot) => {
             timestamp.innerHTML =  `→ ${createdAt}`
             messages.appendChild(newMessages)
             messages.appendChild(timestamp)
-            
-        })
+            })
     })
 });
 
@@ -70,7 +67,6 @@ send.addEventListener("click", async(e) => {
     if (minute === 1) { 
         // checkig if getMinutes return only 1 digit
         // if 1 digit add a 0 in front of minitues
-        
         let current = `${current_time.getHours()}:0${current_time.getMinutes()} ${periods}`;
         newMessage.innerHTML = `Raymod: ${textbox.value}`;
         timestamp.innerHTML = `→ ${current}`;
@@ -79,7 +75,7 @@ send.addEventListener("click", async(e) => {
         console.log(textbox.value)
         await text.add({
             text: textbox.value,
-            createdAt: current
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
         })
     } else {
         let current = `${current_time.getHours()}:${current_time.getMinutes()} ${periods}`;
@@ -90,7 +86,7 @@ send.addEventListener("click", async(e) => {
         console.log(textbox.value)
         await text.add({
             text: textbox.value,
-            createdAt: current
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
         })
     }
 
