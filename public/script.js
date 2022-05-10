@@ -29,8 +29,6 @@ const text = db.collection('messages');
 
 
 
-
-
 text.orderBy("createdAt").get().then((querySnapshot) => {
     // uses querySnapshot to get a list of each document inside the collection
     // querySnapshot contains the results of a query 
@@ -41,13 +39,21 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
         textDoc.onSnapshot(doc => {
             let message = doc.data().text;
             let createdAt = doc.data().createdAt;
+            const current_time = new Date(createdAt.seconds * 1000)
+            
+             // output format functions: minute() & day ()
+            const periods = day(current_time)
+            const minutes = minute(current_time.getMinutes())
+            
+            let current = `${current_time.getHours()}:${minutes} ${periods}`;
             let newMessages = document.createElement("li");
             // use the timestamp string from firebase and append it to index.html
             let timestamp = document.createElement('li')
             newMessages.innerHTML = `Raymond: ${message}`
-            timestamp.innerHTML =  `→ ${createdAt}`
+            timestamp.innerHTML =  `→ ${current}`
             messages.appendChild(newMessages)
             messages.appendChild(timestamp)
+       
             })
     })
 });
@@ -62,33 +68,22 @@ send.addEventListener("click", async(e) => {
     // create a new date object and convert it to string type 
     // then insert it into firebase
     const current_time = new Date();
-    const minute = current_time.getMinutes().toString().length;
+    
+    // output format functions: minute() & day ()
+    const minutes = minute(current_time.getMinutes())
     const periods = day(current_time)
-    if (minute === 1) { 
-        // checkig if getMinutes return only 1 digit
-        // if 1 digit add a 0 in front of minitues
-        let current = `${current_time.getHours()}:0${current_time.getMinutes()} ${periods}`;
-        newMessage.innerHTML = `Raymod: ${textbox.value}`;
-        timestamp.innerHTML = `→ ${current}`;
-        messages.appendChild(newMessage);
-        messages.appendChild(timestamp)
-        console.log(textbox.value)
-        await text.add({
-            text: textbox.value,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        })
-    } else {
-        let current = `${current_time.getHours()}:${current_time.getMinutes()} ${periods}`;
-        newMessage.innerHTML = `Raymod: ${textbox.value}`;
-        timestamp.innerHTML = `→ ${current}`;
-        messages.appendChild(newMessage);
-        messages.appendChild(timestamp)
-        console.log(textbox.value)
-        await text.add({
-            text: textbox.value,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        })
-    }
+
+    let current = `${current_time.getHours()}:${minutes} ${periods}`;
+    newMessage.innerHTML = `Raymod: ${textbox.value}`;
+    timestamp.innerHTML = `→ ${current}`;
+    messages.appendChild(newMessage);
+    messages.appendChild(timestamp)
+    console.log(textbox.value)
+    await text.add({
+        text: textbox.value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    })
+
 
 });
 
@@ -101,6 +96,17 @@ const day = (hour) => {
         return 'AM'
     }
 }
+
+// check the minutes passed in the parameter. If the length of the minute is 1
+// return with a 0 in front of the variable, else just return the argument, minutes
+const minute = (minutes) => {
+    if (minutes.toString().length === 1) {
+        return `0${minutes}`
+    } else {
+        return minutes;
+    }
+}
+
 
 // upload image 
 const image_input = document.querySelector('#chatbox')
