@@ -18,10 +18,6 @@ const config = {
   issuerBaseURL: process.env.ISSUERURL
 };
 
-
-
-
-
 // set view engine
 app.set('view engine', 'ejs'); 
 
