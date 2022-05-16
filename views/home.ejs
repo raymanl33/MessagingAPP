@@ -24,12 +24,16 @@
         <div class="inner">
           <h3 class="masthead-brand">Social App</h3>
           <nav class="nav nav-masthead justify-content-center">
-            <a class="nav-link active" href="#">Home</a>
+            
             <% if(!isAuthenticated) { %>
-            <a class="nav-link" href="/login/">Log in</a>
+              <a class="nav-link active" href="#">Home</a>
+              <a class="nav-link" href="/login/">Log in</a>
+              <a class="nav-link" href="/login/">Register</a>
             <% } else { %>
-            <a class="nav-link" href="/logout/">Log out</a>
+              <a class="nav-link" href="/logout/">Log out</a>
             <% } %>
+              
+              
           </nav>
         </div>
       </header>
@@ -38,10 +42,10 @@
         <h1 class="cover-heading">3AM Messaging App📱</h1>
         <p class="lead">This messsaging app uses Node.js, html, css, bootstrap, and firebase</p>
         <p class="lead">
-          <a href="./chat" class="btn btn-lg btn-secondary">Chat Away!</a>
+          <a href="./chat" class="btn btn-lg btn-secondary" id="chatAway">Chat Away!</a>
         </p>
       </main>
-
+ 
       <footer class="mastfoot mt-auto">
         <div class="inner">
           <p>3AM Messaging App<a href="https://getbootstrap.com/"></a> by <a href="https://twitter.com/mdo">Raymond, Andrew, Nicholas</a>.</p>

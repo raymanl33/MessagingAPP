@@ -4,8 +4,6 @@ const { auth } = require('express-openid-connect');
 const { requiresAuth } = require('express-openid-connect');
 require('dotenv').config()
 
-console.log(  process.env.SECRET, process.env.BASEURL, process.env.CLIENTID, process.env.ISSUERURL)
-
 const config = {
   authRequired: false,
   auth0Logout: true,
@@ -24,7 +22,7 @@ app.use(auth(config));
 
 app.use("/", indexRouter);
 
-app.get('/profile', requiresAuth(), (req, res) => {
+app.get('/login', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 });
 
@@ -40,10 +38,24 @@ app.get('/home', (req, res) => {
 });
 
 app.get('/chat', (req, res) => {
-  res.render("index.ejs")
+  if(req.oidc.isAuthenticated()) {
+    res.render("index.ejs")
+  } else {
+    res.redirect('/login');
+  }
 });
 
 const port = 8080
 app.listen(port, () => {
   console.log(`Server listening on port ${port} 🚀`)
 });
+
+let env_variables = { 
+  apikey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINSENDERID,
+  appId: process.env.APPID,
+  measurementId: process.env.MEASUREMENDID
+};
