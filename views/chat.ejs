@@ -21,9 +21,10 @@
         <div id="wrapper">
             <div id="menu">
                 <p class="welcome">Welcome, <%=user.nickname%><b></b></p>
+                <a href="/chataway">Leave Room</a>
             </div>
+        <form id="send-container">
             <div id="chatbox">
-  
                 <ul id="messages"></ul>
             </div>
             <div id="user">
@@ -31,9 +32,12 @@
                 <button id="send">Send</button>
                 <input type="file" id="image_input" accept="image/png, image/jpg">
             </div>
+        </form>
         </div>
         
         <!-- Below replace spacing with window for text to go to-->
         <script type="module" src="../script.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+
     </body>
 </html>

@@ -1,11 +1,42 @@
 // import express
 const express = require('express')
+const http = require('http')
 const app = express()
+const server = http.createServer(app)
+
+// import socket.io
+const socketio = require('socket.io')
+const io = socketio(server)
+
+// run when client connects 
+io.on('connection', socket => {
+
+  // message to the client that just logged on
+  socket.emit('message', 'Welcome to Chataway App!')
+
+  // broadcast when a user connects
+  socket.broadcast.emit('message', 'A user has joined the chat') 
+
+  // Runs when client disconnects
+  socket.on('disconnect', () =>{
+    // io.emit will broadcast to everyone 
+    io.emit('message', 'A user has left the chat')
+  })
+
+  // listen for chatMessage
+  socket.on('chatMessage', (msg) => {
+    io.emit('message', msg);
+  })
+
+
+})
 
 // import dotenv variable
 require('dotenv').config()
 const host = process.env.HOST;
 const port = process.env.PORT;
+
+
 
 // import Auth0
 const { auth } = require('express-openid-connect');
@@ -46,13 +77,10 @@ app.get('/login', (req, res) => {
 // Render chat page
 app.get('/chataway', (req, res) => {
   if (!req.oidc.isAuthenticated()) {
-    res.render("home.ejs", {
-      isAuthenticated: req.oidc.isAuthenticated(),
-      user: req.oidc.user,
-    })
+    res.redirect('/login')
  
   } else {
-    res.render('chat.ejs', {
+    res.render('chatroom.ejs', {
       isAuthenticated: req.oidc.isAuthenticated(),
       user: req.oidc.user,
     })
@@ -61,7 +89,21 @@ app.get('/chataway', (req, res) => {
 
 
 
-app.listen(port, function () {
+app.get('/chat', (req, res) => {
+  if (!req.oidc.isAuthenticated()) {
+    res.render("home.ejs", {
+      isAuthenticated: req.oidc.isAuthenticated(),
+      user: req.oidc.user,
+    })
+  } else {
+    res.render('chat.ejs', {
+      isAuthenticated: req.oidc.isAuthenticated(),
+      user: req.oidc.user,
+    })
+  }
+})
+
+server.listen(port, function () {
     console.log(
       `Server running. Visit: ${host}:${port} in your browser 🚀`
     );

@@ -1,8 +1,11 @@
+const socket = io();
 
-// // ???
-// const firebase = require("../index");
-// console.log(firebase)
-;
+
+// retrieve message from the server.js
+socket.on('message', message => {
+    outputMessage(message);
+});
+
 
 
 //chat box
@@ -27,6 +30,24 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const text = db.collection('messages');
 
+// output message on to the DOM
+const outputMessage = (msg) => {
+    let newMessage = document.createElement("li");
+    let timestamp = document.createElement('li');
+    // create a new date object and convert it to string type 
+    // then insert it into firebase
+    const current_time = new Date();
+    
+    // output format functions: minute() & day ()
+    const minutes = minute(current_time.getMinutes())
+    const periods = day(current_time)
+
+    let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+    newMessage.innerHTML = `Raymod: ${msg}`;
+    timestamp.innerHTML = `→ ${current}`;
+    messages.appendChild(newMessage);
+    messages.appendChild(timestamp);
+}
 
 
 text.orderBy("createdAt").get().then((querySnapshot) => {
@@ -65,20 +86,10 @@ send.addEventListener("click", async(e) => {
     e.preventDefault();
     let newMessage = document.createElement("li");
     let timestamp = document.createElement('li');
-    // create a new date object and convert it to string type 
-    // then insert it into firebase
-    const current_time = new Date();
-    
-    // output format functions: minute() & day ()
-    const minutes = minute(current_time.getMinutes())
-    const periods = day(current_time)
 
-    let current = `${current_time.getHours()}:${minutes} ${periods}`;
-    newMessage.innerHTML = `Raymod: ${textbox.value}`;
-    timestamp.innerHTML = `→ ${current}`;
-    messages.appendChild(newMessage);
-    messages.appendChild(timestamp)
-    console.log(textbox.value)
+    // emit a message to the server
+    socket.emit('chatMessage', textbox.value);
+
     await text.add({
         text: textbox.value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
