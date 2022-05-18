@@ -47,6 +47,7 @@ let text = db.collection(room);
 const outputMessage = (msg, user) => {
     let newMessage = document.createElement("li");
     let timestamp = document.createElement('li');
+    
     // create a new date object and convert it to string type 
     // then insert it into firebase
     const current_time = new Date();
@@ -56,6 +57,8 @@ const outputMessage = (msg, user) => {
     const periods = day(current_time)
 
     if (msg == undefined) {
+        newMessage.style.textAlign = "right";
+        timestamp.style.textAlign = "right";
         let message = textbox.value
         let current = `${current_time.getHours()}:${minutes} ${periods}`;   
         newMessage.innerHTML = `${user}: ${message}`;
@@ -93,13 +96,19 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
             
             let current = `${current_time.getHours()}:${minutes} ${periods}`;
             let newMessages = document.createElement("li");
+            
             // use the timestamp string from firebase and append it to index.html
             let timestamp = document.createElement('li')
+            if (user === username) {
+                newMessages.style.textAlign = "right";
+                timestamp.style.textAlign = "right";
+            }
+          
             newMessages.innerHTML = `${username}: ${message}`
             timestamp.innerHTML =  `→ ${current}`
             messages.appendChild(newMessages)
             messages.appendChild(timestamp)
-       
+
             })
     })
 });
