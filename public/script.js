@@ -8,15 +8,15 @@ const { user, room } = Qs.parse(location.search, {
 });
 
 // Join room 
-socket.emit("joinRoom", {user, room})
+socket.emit("joinRoom", {user, room});
 
 // retrieve message from the server.js
 socket.on('message', message => {
     outputMessage(message.text, user);
     console.log(message)
+
     // Scrow down 
     chatMessages.scrollTop = chatMessages.scrollHeight;
-
 });
 
 
@@ -64,7 +64,7 @@ const outputMessage = (msg, user) => {
         messages.appendChild(timestamp);
     } else {
         let current = `${current_time.getHours()}:${minutes} ${periods}`;   
-        newMessage.innerHTML = `${user}: ${msg}!`;
+        newMessage.innerHTML = `Chataway Bot🤖 : ${msg}!`;
         timestamp.innerHTML = `→ ${current}`;
         messages.appendChild(newMessage);
         messages.appendChild(timestamp);

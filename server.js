@@ -19,7 +19,7 @@ io.on('connection', socket => {
     socket.emit('message', formatMessage(chatbot, 'Welcome to Chatcord'))
 
     // broadcast when a user connects
-    socket.broadcast.emit('message', formatMessage(user, `${user} has joined the chat`)) 
+    socket.broadcast.emit('message', formatMessage(chatbot, `${user} has joined the chat`)) 
 
   })
 
