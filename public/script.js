@@ -1,9 +1,21 @@
 const socket = io();
+const chatMessages = document.querySelector('#chatbox')
+
+
+// Get username and room from URL 
+const { user, room } = Qs.parse(location.search, {
+    ignoreQueryPrefix: true
+});
+
 
 
 // retrieve message from the server.js
 socket.on('message', message => {
-    outputMessage(message);
+    outputMessage(message.text, user);
+
+    // Scrow down 
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
 });
 
 
@@ -31,7 +43,8 @@ const db = firebase.firestore();
 const text = db.collection('messages');
 
 // output message on to the DOM
-const outputMessage = (msg) => {
+const outputMessage = (msg, user) => {
+    console.log(msg)
     let newMessage = document.createElement("li");
     let timestamp = document.createElement('li');
     // create a new date object and convert it to string type 
@@ -42,11 +55,22 @@ const outputMessage = (msg) => {
     const minutes = minute(current_time.getMinutes())
     const periods = day(current_time)
 
-    let current = `${current_time.getHours()}:${minutes} ${periods}`;   
-    newMessage.innerHTML = `Raymod: ${msg}`;
-    timestamp.innerHTML = `→ ${current}`;
-    messages.appendChild(newMessage);
-    messages.appendChild(timestamp);
+    if (msg == undefined) {
+        let message = textbox.value
+        let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+        newMessage.innerHTML = `${user}: ${message}`;
+        timestamp.innerHTML = `→ ${current}`;
+        messages.appendChild(newMessage);
+        messages.appendChild(timestamp);
+    } else {
+        let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+        newMessage.innerHTML = `${user}, ${msg}!`;
+        timestamp.innerHTML = `→ ${current}`;
+        messages.appendChild(newMessage);
+        messages.appendChild(timestamp);
+    }
+
+    
 }
 
 
@@ -60,6 +84,7 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
         textDoc.onSnapshot(doc => {
             let message = doc.data().text;
             let createdAt = doc.data().createdAt;
+            let username = doc.data().name;
             const current_time = new Date(createdAt.seconds * 1000)
             
              // output format functions: minute() & day ()
@@ -70,7 +95,7 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
             let newMessages = document.createElement("li");
             // use the timestamp string from firebase and append it to index.html
             let timestamp = document.createElement('li')
-            newMessages.innerHTML = `Raymond: ${message}`
+            newMessages.innerHTML = `${username}: ${message}`
             timestamp.innerHTML =  `→ ${current}`
             messages.appendChild(newMessages)
             messages.appendChild(timestamp)
@@ -84,17 +109,16 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
 // When the send button gets clicked the message will be sent to firebase
 send.addEventListener("click", async(e) => {
     e.preventDefault();
-    let newMessage = document.createElement("li");
-    let timestamp = document.createElement('li');
 
     // emit a message to the server
     socket.emit('chatMessage', textbox.value);
-
+    
     await text.add({
+        name: user,
         text: textbox.value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
     })
-
+    textbox.value = '';
 
 });
 

@@ -20,7 +20,8 @@
         <h1>Messaging Window</h1>
         <div id="wrapper">
             <div id="menu">
-                <p class="welcome">Welcome, <%=user.nickname%><b></b></p>
+                <p class="welcome">Welcome <%=user.nickname%><b></b></p>
+                <p> Room: <%=room%></p>
                 <a href="/chataway">Leave Room</a>
             </div>
         <form id="send-container">
@@ -36,6 +37,9 @@
         </div>
         
         <!-- Below replace spacing with window for text to go to-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.3/qs.min.js" 
+		integrity="sha512-juaCj8zi594KHQqb92foyp87mCSriYjw3BcTHaXsAn4pEB1YWh+z+XQScMxIxzsjfM4BeVFV3Ij113lIjWiC2w==" 
+		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script type="module" src="../script.js"></script>
         <script src="/socket.io/socket.io.js"></script>
 

@@ -4,15 +4,19 @@ const http = require('http')
 const app = express()
 const server = http.createServer(app)
 
+const formatMessage = require('./utils/messages')
+
 // import socket.io
 const socketio = require('socket.io')
 const io = socketio(server)
+
+const chatbot = 'Chataway Bot'
 
 // run when client connects 
 io.on('connection', socket => {
 
   // message to the client that just logged on
-  socket.emit('message', 'Welcome to Chataway App!')
+  socket.emit('message', formatMessage(chatbot, 'Welcome to Chatcord'))
 
   // broadcast when a user connects
   socket.broadcast.emit('message', 'A user has joined the chat') 
@@ -96,9 +100,12 @@ app.get('/chat', (req, res) => {
       user: req.oidc.user,
     })
   } else {
+    const room = req.query.room;
     res.render('chat.ejs', {
       isAuthenticated: req.oidc.isAuthenticated(),
       user: req.oidc.user,
+      room: room
+      
     })
   }
 })
