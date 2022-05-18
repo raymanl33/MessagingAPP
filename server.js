@@ -14,17 +14,19 @@ const chatbot = 'Chataway Bot'
 
 // run when client connects 
 io.on('connection', socket => {
+  socket.on('joinRoom', ({user, room}) => {
+     // message to the client that just logged on
+    socket.emit('message', formatMessage(chatbot, 'Welcome to Chatcord'))
 
-  // message to the client that just logged on
-  socket.emit('message', formatMessage(chatbot, 'Welcome to Chatcord'))
+    // broadcast when a user connects
+    socket.broadcast.emit('message', formatMessage(user, `${user} has joined the chat`)) 
 
-  // broadcast when a user connects
-  socket.broadcast.emit('message', 'A user has joined the chat') 
+  })
 
   // Runs when client disconnects
   socket.on('disconnect', () =>{
     // io.emit will broadcast to everyone 
-    io.emit('message', 'A user has left the chat')
+    io.emit('message', formatMessage('USER', 'A user has left the chat') )
   })
 
   // listen for chatMessage

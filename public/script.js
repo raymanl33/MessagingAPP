@@ -7,12 +7,13 @@ const { user, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 });
 
-
+// Join room 
+socket.emit("joinRoom", {user, room})
 
 // retrieve message from the server.js
 socket.on('message', message => {
     outputMessage(message.text, user);
-
+    console.log(message)
     // Scrow down 
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
@@ -40,11 +41,10 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const text = db.collection('messages');
+let text = db.collection(room);
 
 // output message on to the DOM
 const outputMessage = (msg, user) => {
-    console.log(msg)
     let newMessage = document.createElement("li");
     let timestamp = document.createElement('li');
     // create a new date object and convert it to string type 
@@ -64,7 +64,7 @@ const outputMessage = (msg, user) => {
         messages.appendChild(timestamp);
     } else {
         let current = `${current_time.getHours()}:${minutes} ${periods}`;   
-        newMessage.innerHTML = `${user}, ${msg}!`;
+        newMessage.innerHTML = `${user}: ${msg}!`;
         timestamp.innerHTML = `→ ${current}`;
         messages.appendChild(newMessage);
         messages.appendChild(timestamp);
