@@ -68,7 +68,7 @@ app.use(auth(config));
 
 // render home page
 app.get('/', (req, res) => {
-  console.log(`${req.oidc.isAuthenticated()}`)
+  console.log(`User logged in: ${req.oidc.isAuthenticated()}`)
   res.render('home.ejs', {
       isAuthenticated: req.oidc.isAuthenticated(),
       user: req.oidc.user,
