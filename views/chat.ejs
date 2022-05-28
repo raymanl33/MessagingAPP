@@ -20,7 +20,7 @@
         <h1>Messaging Window</h1>
         <div id="wrapper">
             <div id="menu">
-                <p class="welcome">Welcome <%=user.nickname%><b></b></p>
+                <p class="welcome">User: <%=user%><b></b></p>
                 <p> Room: <%=room%></p>
                 <a href="/chataway">Leave Room</a>
             </div>
@@ -31,7 +31,7 @@
             <div id="user">
                 <textarea id="text" cols="35" rows="0">Type Message Here</textarea>
                 <button id="send">Send</button>
-                <input type="file" id="image_input" accept="image/png, image/jpg">
+                <!-- <input type="file" id="image_input" accept="image/png, image/jpg"> -->
             </div>
         </form>
         </div>

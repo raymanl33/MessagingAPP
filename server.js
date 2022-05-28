@@ -15,11 +15,12 @@ const chatbot = 'Chataway Bot'
 // run when client connects 
 io.on('connection', socket => {
   socket.on('joinRoom', ({user, room}) => {
+
+    socket.join(room);
      // message to the client that just logged on
     socket.emit('message', formatMessage(chatbot, 'Welcome to Chatcord'))
-
     // broadcast when a user connects
-    socket.broadcast.emit('message', formatMessage(chatbot, `${user} has joined the chat`)) 
+    socket.broadcast.to(room).emit('message', formatMessage(chatbot, `${user} has joined the chat`)) 
 
   })
 
@@ -103,9 +104,10 @@ app.get('/chat', (req, res) => {
     })
   } else {
     const room = req.query.room;
+    const user = req.query.user;
     res.render('chat.ejs', {
       isAuthenticated: req.oidc.isAuthenticated(),
-      user: req.oidc.user,
+      user: user,
       room: room
       
     })

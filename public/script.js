@@ -10,6 +10,8 @@ const { user, room } = Qs.parse(location.search, {
 // Join room 
 socket.emit("joinRoom", {user, room});
 
+
+
 // retrieve message from the server.js
 socket.on('message', message => {
     outputMessage(message.text, user);
@@ -43,6 +45,7 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 let text = db.collection(room);
 
+
 // output message on to the DOM
 const outputMessage = (msg, user) => {
     let newMessage = document.createElement("li");
@@ -57,6 +60,7 @@ const outputMessage = (msg, user) => {
     const periods = day(current_time)
 
     if (msg == undefined) {
+        
         newMessage.style.textAlign = "right";
         timestamp.style.textAlign = "right";
         let message = textbox.value
@@ -83,6 +87,7 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
     querySnapshot.forEach((text_mssg) => {
         let doc_id = text_mssg.id;
         const textDoc = text.doc(doc_id);
+       
         // onSnapshot for real time update of text messages
         textDoc.onSnapshot(doc => {
             let message = doc.data().text;
@@ -153,17 +158,17 @@ const minute = (minutes) => {
 
 
 // upload image 
-const image_input = document.querySelector('#chatbox')
-let uploaded_image = "";
+// const image_input = document.querySelector('#chatbox')
+// let uploaded_image = "";
 
-image_input.addEventListener("change", function() {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-        uploaded_image = reader.result;
-        document.querySelector("#chatbox").style.backgroundImage = `url(${uploaded_image})`; 
-    });
-    reader.readAsDataURL(this.files[0]);
-});
+// image_input.addEventListener("change", function() {
+//     const reader = new FileReader();
+//     reader.addEventListener("load", () => {
+//         uploaded_image = reader.result;
+//         document.querySelector("#chatbox").style.backgroundImage = `url(${uploaded_image})`; 
+//     });
+//     reader.readAsDataURL(this.files[0]);
+// });
 
 
 
