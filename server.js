@@ -5,6 +5,7 @@ const app = express()
 const server = http.createServer(app)
 
 const formatMessage = require('./utils/messages')
+const {userJoin, getCurrentUser, userLeave, getRoomUsers} = require('./utils/users')
 
 // import socket.io
 const socketio = require('socket.io')
@@ -15,19 +16,28 @@ const chatbot = 'Chataway Bot'
 // run when client connects 
 io.on('connection', socket => {
   socket.on('joinRoom', ({user, room}) => {
-
-    socket.join(room);
+    const userInfo = userJoin(socket.id, user, room)
+ 
+    socket.join(userInfo.room);
      // message to the client that just logged on
     socket.emit('message', formatMessage(chatbot, 'Welcome to Chatcord'))
     // broadcast when a user connects
-    socket.broadcast.to(room).emit('message', formatMessage(chatbot, `${user} has joined the chat`)) 
+    socket.broadcast.to(userInfo.room).emit('message', formatMessage(chatbot, `${userInfo.username} has joined the chat`)) 
 
   })
 
   // Runs when client disconnects
   socket.on('disconnect', () =>{
-    // io.emit will broadcast to everyone 
-    io.emit('message', formatMessage('USER', 'A user has left the chat') )
+    const user = userLeave(socket.id);
+    const username = user[0].username
+    // if (user) {
+    //   // io.emit will broadcast to everyone in the room
+    //   io.emit('message', formatMessage('USER', `${user.username} has left the chat`) )
+    // }
+    io.emit('message', formatMessage('USER', ` ${username} has left the chat`) )
+
+    
+    
   })
 
   // listen for chatMessage

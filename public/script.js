@@ -7,6 +7,7 @@ const { user, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 });
 
+
 // Join room 
 socket.emit("joinRoom", {user, room});
 
@@ -15,7 +16,7 @@ socket.emit("joinRoom", {user, room});
 // retrieve message from the server.js
 socket.on('message', message => {
     outputMessage(message.text, user);
-    console.log(message)
+    console.log(message.text)
 
     // Scrow down 
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -48,6 +49,7 @@ let text = db.collection(room);
 
 // output message on to the DOM
 const outputMessage = (msg, user) => {
+    console.log(msg)
     let newMessage = document.createElement("li");
     let timestamp = document.createElement('li');
     
@@ -60,7 +62,10 @@ const outputMessage = (msg, user) => {
     const periods = day(current_time)
 
     if (msg == undefined) {
-        
+        // problem: when receiving the text msg is always undefined. Therefore this 
+        // if condition would return true and uses the message in the text box and align it right
+        // which is wrong ...
+     
         newMessage.style.textAlign = "right";
         timestamp.style.textAlign = "right";
         let message = textbox.value
