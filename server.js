@@ -29,14 +29,13 @@ io.on('connection', socket => {
   // Runs when client disconnects
   socket.on('disconnect', () =>{
     const user = userLeave(socket.id);
-    const username = user[0].username
-    // if (user) {
-    //   // io.emit will broadcast to everyone in the room
-    //   io.emit('message', formatMessage('USER', `${user.username} has left the chat`) )
-    // }
-    io.emit('message', formatMessage('USER', ` ${username} has left the chat`) )
-
-    
+   
+    if (user) {
+      const username = user[0].username
+      const room = user[0].room
+      // io.to(room).emit will broadcast to everyone in the room
+      io.to(room).emit('message', formatMessage('USER', ` ${username} has left the chat`) )
+    }
     
   })
 
