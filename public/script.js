@@ -1,3 +1,5 @@
+// const { type } = require("express/lib/response");
+
 const socket = io();
 const chatMessages = document.querySelector('#chatbox')
 
@@ -15,11 +17,9 @@ socket.emit("joinRoom", {user, room});
 
 // retrieve message from the server.js
 socket.on('message', message => {
-    outputMessage(message.text, user);
-    console.log(message.text)
-
-    // Scrow down 
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+        // Scrow down 
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        outputMessage(message, user);
 });
 
 
@@ -49,7 +49,7 @@ let text = db.collection(room);
 
 // output message on to the DOM
 const outputMessage = (msg, user) => {
-    console.log(msg)
+
     let newMessage = document.createElement("li");
     let timestamp = document.createElement('li');
     
@@ -61,26 +61,41 @@ const outputMessage = (msg, user) => {
     const minutes = minute(current_time.getMinutes())
     const periods = day(current_time)
 
-    if (msg == undefined) {
-        // problem: when receiving the text msg is always undefined. Therefore this 
-        // if condition would return true and uses the message in the text box and align it right
-        // which is wrong ...
+
+    // Get username from the URL using windows search 
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const username = urlParams.get('user')
+
+    console.log(msg.username)
+ 
+  
+    if (msg.username != "Chataway Bot") {
+       
+       
+            // slight UI issue here where username === user will always be true
+            // also the server is getting the wrong user name when receiving incoming 
+            // text
+            newMessage.style.textAlign = "right";
+            timestamp.style.textAlign = "right";
+      
+            let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+            newMessage.innerHTML = `${user}: ${msg.text}`;
+            timestamp.innerHTML = `→ ${current}`;
+            messages.appendChild(newMessage);
+            messages.appendChild(timestamp);
+
+        
+   
      
-        newMessage.style.textAlign = "right";
-        timestamp.style.textAlign = "right";
-        let message = textbox.value
-        let current = `${current_time.getHours()}:${minutes} ${periods}`;   
-        newMessage.innerHTML = `${user}: ${message}`;
-        timestamp.innerHTML = `→ ${current}`;
-        messages.appendChild(newMessage);
-        messages.appendChild(timestamp);
     } else {
+        console.log(msg.text)
         let current = `${current_time.getHours()}:${minutes} ${periods}`;   
-        newMessage.innerHTML = `Chataway Bot🤖 : ${msg}!`;
+        newMessage.innerHTML = `Chataway Bot🤖 : ${msg.text}!`;
         timestamp.innerHTML = `→ ${current}`;
         messages.appendChild(newMessage);
         messages.appendChild(timestamp);
-    }
+    } 
 
     
 }

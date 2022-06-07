@@ -34,14 +34,24 @@ io.on('connection', socket => {
       const username = user[0].username
       const room = user[0].room
       // io.to(room).emit will broadcast to everyone in the room
-      io.to(room).emit('message', formatMessage('USER', ` ${username} has left the chat`) )
+      io.to(room).emit('message', formatMessage(chatbot, ` ${username} has left the chat`) )
     }
     
   })
 
   // listen for chatMessage
   socket.on('chatMessage', (msg) => {
-    io.emit('message', msg);
+    const user = getCurrentUser(socket.id);
+
+    if (user) {
+      console.log(user)
+      io.emit('message', formatMessage(user, msg));
+    
+
+    } else {
+      console.log(false)
+    }
+
   })
 
 
