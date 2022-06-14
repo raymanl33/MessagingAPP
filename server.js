@@ -71,7 +71,7 @@ const { auth } = require('express-openid-connect');
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: "b1b763f6c00b66b7b53e1be29ee1ca73dc7ac8d957b631ccb4bf8254174a8713",
+  secret: "GG-_9YrZ7LwinCJ6q2kPYgSc7bEulB3r86kuIn4UnSHvD3g1xDav5KK5BSx0Hngd",
   baseURL: "https://chatawayapp-express.herokuapp.com",
   clientID: "VKNFyfkYfFLRvyMN0WIAAbeZFVIRTV32",
   issuerBaseURL: "https://dev-wknbct21.us.auth0.com"
