@@ -70,10 +70,11 @@ const { auth } = require('express-openid-connect');
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: process.env.SECRET,
-  baseURL: process.env.BASEURL,
-  clientID: process.env.CLIENTID,
-  issuerBaseURL: process.env.ISSUERURL
+  secret: "b1b763f6c00b66b7b53e1be29ee1ca73dc7ac8d957b631ccb4bf8254174a8713",
+  baseURL: "http://localhost:8080",
+  clientID: "VKNFyfkYfFLRvyMN0WIAAbeZFVIRTV32",
+  issuerBaseURL: "https://dev-wknbct21.us.auth0.com"
+
 };
 
 // set view engine
