@@ -70,7 +70,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: "GG-_9YrZ7LwinCJ6q2kPYgSc7bEulB3r86kuIn4UnSHvD3g1xDav5KK5BSx0Hngd",
-  baseURL: "http://localhost:8080",
+  baseURL: "https://chatawayapp-express.herokuapp.com/",
   clientID: "VKNFyfkYfFLRvyMN0WIAAbeZFVIRTV32",
   issuerBaseURL: "https://dev-wknbct21.us.auth0.com"
 
