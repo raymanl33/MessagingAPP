@@ -68,7 +68,6 @@ const outputMessage = (msg, user) => {
     const username = urlParams.get('user')
 
  
-    console.log(msg.username)
     if ( msg.username != user && msg.username != "Chataway Bot") {
             let current = `${current_time.getHours()}:${minutes} ${periods}`;   
             newMessage.innerHTML = `${msg.username}: ${msg.text}`;
@@ -178,19 +177,6 @@ const minute = (minutes) => {
     }
 }
 
-
-// upload image 
-// const image_input = document.querySelector('#chatbox')
-// let uploaded_image = "";
-
-// image_input.addEventListener("change", function() {
-//     const reader = new FileReader();
-//     reader.addEventListener("load", () => {
-//         uploaded_image = reader.result;
-//         document.querySelector("#chatbox").style.backgroundImage = `url(${uploaded_image})`; 
-//     });
-//     reader.readAsDataURL(this.files[0]);
-// });
 
 
 
