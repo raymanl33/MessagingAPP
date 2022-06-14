@@ -44,8 +44,9 @@ io.on('connection', socket => {
     const user = getCurrentUser(socket.id);
 
     if (user) {
-      console.log(user)
-      io.emit('message', formatMessage(user, msg));
+      console.log(user.username)
+      console.log(msg)
+      io.emit('message', formatMessage(user.username, msg));
     
 
     } else {

@@ -67,20 +67,11 @@ const outputMessage = (msg, user) => {
     const urlParams = new URLSearchParams(queryString);
     const username = urlParams.get('user')
 
-    console.log(msg.username)
  
-  
-    if (msg.username != "Chataway Bot") {
-       
-       
-            // slight UI issue here where username === user will always be true
-            // also the server is getting the wrong user name when receiving incoming 
-            // text
-            newMessage.style.textAlign = "right";
-            timestamp.style.textAlign = "right";
-      
+    console.log(msg.username)
+    if ( msg.username != user && msg.username != "Chataway Bot") {
             let current = `${current_time.getHours()}:${minutes} ${periods}`;   
-            newMessage.innerHTML = `${user}: ${msg.text}`;
+            newMessage.innerHTML = `${msg.username}: ${msg.text}`;
             timestamp.innerHTML = `→ ${current}`;
             messages.appendChild(newMessage);
             messages.appendChild(timestamp);
@@ -88,13 +79,24 @@ const outputMessage = (msg, user) => {
         
    
      
-    } else {
+    } else if (msg.username === "Chataway Bot" ) {
         console.log(msg.text)
         let current = `${current_time.getHours()}:${minutes} ${periods}`;   
-        newMessage.innerHTML = `Chataway Bot🤖 : ${msg.text}!`;
+        newMessage.innerHTML = `${msg.username}🤖 : ${msg.text}!`;
         timestamp.innerHTML = `→ ${current}`;
         messages.appendChild(newMessage);
         messages.appendChild(timestamp);
+
+    } else {
+        newMessage.style.textAlign = "right";
+        timestamp.style.textAlign = "right";
+  
+        let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+        newMessage.innerHTML = `${user}: ${msg.text}`;
+        timestamp.innerHTML = `→ ${current}`;
+        messages.appendChild(newMessage);
+        messages.appendChild(timestamp);
+       
     } 
 
     
