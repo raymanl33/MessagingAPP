@@ -64,15 +64,13 @@ const host = process.env.HOST;
 const port = process.env.PORT;
 
 
-
-
 // import Auth0
 const { auth } = require('express-openid-connect');
 const config = {
   authRequired: false,
   auth0Logout: true,
   secret: "GG-_9YrZ7LwinCJ6q2kPYgSc7bEulB3r86kuIn4UnSHvD3g1xDav5KK5BSx0Hngd",
-  baseURL: "https://chatawayapp-express.herokuapp.com",
+  baseURL: "http://localhost:8080",
   clientID: "VKNFyfkYfFLRvyMN0WIAAbeZFVIRTV32",
   issuerBaseURL: "https://dev-wknbct21.us.auth0.com"
 
