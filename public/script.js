@@ -1,8 +1,27 @@
+// const { type } = require("express/lib/response");
 
-// // ???
-// const firebase = require("../index");
-// console.log(firebase)
-;
+const socket = io();
+const chatMessages = document.querySelector('#chatbox')
+
+
+// Get username and room from URL 
+const { user, room } = Qs.parse(location.search, {
+    ignoreQueryPrefix: true
+});
+
+
+// Join room 
+socket.emit("joinRoom", {user, room});
+
+
+
+// retrieve message from the server.js
+socket.on('message', message => {
+        // Scrow down 
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        outputMessage(message, user);
+});
+
 
 
 //chat box
@@ -25,8 +44,63 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
-const text = db.collection('messages');
+let text = db.collection(room);
 
+
+// output message on to the DOM
+const outputMessage = (msg, user) => {
+
+    let newMessage = document.createElement("li");
+    let timestamp = document.createElement('li');
+    
+    // create a new date object and convert it to string type 
+    // then insert it into firebase
+    const current_time = new Date();
+    
+    // output format functions: minute() & day ()
+    const minutes = minute(current_time.getMinutes())
+    const periods = day(current_time)
+
+
+    // Get username from the URL using windows search 
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const username = urlParams.get('user')
+
+ 
+    console.log(msg.username)
+    if ( msg.username != user && msg.username != "Chataway Bot") {
+            let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+            newMessage.innerHTML = `${msg.username}: ${msg.text}`;
+            timestamp.innerHTML = `→ ${current}`;
+            messages.appendChild(newMessage);
+            messages.appendChild(timestamp);
+
+        
+   
+     
+    } else if (msg.username === "Chataway Bot" ) {
+        console.log(msg.text)
+        let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+        newMessage.innerHTML = `${msg.username}🤖 : ${msg.text}!`;
+        timestamp.innerHTML = `→ ${current}`;
+        messages.appendChild(newMessage);
+        messages.appendChild(timestamp);
+
+    } else {
+        newMessage.style.textAlign = "right";
+        timestamp.style.textAlign = "right";
+  
+        let current = `${current_time.getHours()}:${minutes} ${periods}`;   
+        newMessage.innerHTML = `${user}: ${msg.text}`;
+        timestamp.innerHTML = `→ ${current}`;
+        messages.appendChild(newMessage);
+        messages.appendChild(timestamp);
+       
+    } 
+
+    
+}
 
 
 text.orderBy("createdAt").get().then((querySnapshot) => {
@@ -35,10 +109,12 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
     querySnapshot.forEach((text_mssg) => {
         let doc_id = text_mssg.id;
         const textDoc = text.doc(doc_id);
+       
         // onSnapshot for real time update of text messages
         textDoc.onSnapshot(doc => {
             let message = doc.data().text;
             let createdAt = doc.data().createdAt;
+            let username = doc.data().name;
             const current_time = new Date(createdAt.seconds * 1000)
             
              // output format functions: minute() & day ()
@@ -47,13 +123,19 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
             
             let current = `${current_time.getHours()}:${minutes} ${periods}`;
             let newMessages = document.createElement("li");
+            
             // use the timestamp string from firebase and append it to index.html
             let timestamp = document.createElement('li')
-            newMessages.innerHTML = `Raymond: ${message}`
+            if (user === username) {
+                newMessages.style.textAlign = "right";
+                timestamp.style.textAlign = "right";
+            }
+          
+            newMessages.innerHTML = `${username}: ${message}`
             timestamp.innerHTML =  `→ ${current}`
             messages.appendChild(newMessages)
             messages.appendChild(timestamp)
-       
+
             })
     })
 });
@@ -63,27 +145,16 @@ text.orderBy("createdAt").get().then((querySnapshot) => {
 // When the send button gets clicked the message will be sent to firebase
 send.addEventListener("click", async(e) => {
     e.preventDefault();
-    let newMessage = document.createElement("li");
-    let timestamp = document.createElement('li');
-    // create a new date object and convert it to string type 
-    // then insert it into firebase
-    const current_time = new Date();
-    
-    // output format functions: minute() & day ()
-    const minutes = minute(current_time.getMinutes())
-    const periods = day(current_time)
 
-    let current = `${current_time.getHours()}:${minutes} ${periods}`;
-    newMessage.innerHTML = `Raymod: ${textbox.value}`;
-    timestamp.innerHTML = `→ ${current}`;
-    messages.appendChild(newMessage);
-    messages.appendChild(timestamp)
-    console.log(textbox.value)
+    // emit a message to the server
+    socket.emit('chatMessage', textbox.value);
+    
     await text.add({
+        name: user,
         text: textbox.value,
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
     })
-
+    textbox.value = '';
 
 });
 
@@ -109,17 +180,17 @@ const minute = (minutes) => {
 
 
 // upload image 
-const image_input = document.querySelector('#chatbox')
-let uploaded_image = "";
+// const image_input = document.querySelector('#chatbox')
+// let uploaded_image = "";
 
-image_input.addEventListener("change", function() {
-    const reader = new FileReader();
-    reader.addEventListener("load", () => {
-        uploaded_image = reader.result;
-        document.querySelector("#chatbox").style.backgroundImage = `url(${uploaded_image})`; 
-    });
-    reader.readAsDataURL(this.files[0]);
-});
+// image_input.addEventListener("change", function() {
+//     const reader = new FileReader();
+//     reader.addEventListener("load", () => {
+//         uploaded_image = reader.result;
+//         document.querySelector("#chatbox").style.backgroundImage = `url(${uploaded_image})`; 
+//     });
+//     reader.readAsDataURL(this.files[0]);
+// });
 
 
 

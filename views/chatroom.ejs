@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="chatroom.css" />
+		<title>ChatCord App</title>
+	</head>
+	<body>
+		<div class="join-container">
+			<header class="join-header">
+				<h1><i class="fas fa-smile"></i> Chataway</h1>
+				<a href="/">Home</a>
+			</header>
+			<main class="join-main">
+				<form action="/chat">
+					<div class="form-control">
+						<p>User <%=user.nickname%></p>
+						<input name="user" for="username" placeholder="Enter username ..."></input>
+						<label for="room">Room</label>
+						<select name="room" id="room">
+							<option value="Earth🌎">Earth🌎</option>
+							<option value="Canada🇨🇦">Canada🇨🇦</option>
+							<option value="Taiwan🇹🇼">Taiwan🇹🇼</option>
+							<option value="Japan🇯🇵">Japan🇯🇵</option>
+							<option value="Hong Kong🇭🇰">Hong Kong🇭🇰</option>
+							<option value="America🇺🇸">America🇺🇸</option>
+							<option value="Spain🇪🇸">Spain🇪🇸</option>
+							<option value="South Korea🇰🇷">South Korea🇰🇷</option>
+							<option value="Signapore🇸🇬">Signapore🇸🇬</option>
+							
+						</select>
+					</div>
+					<button  type="submit" class="btn">Join Chat</button>
+				</form>
+			</main>
+		</div>
+		
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../script.js"></script>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../bootstrap-4.0.0/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="../bootstrap-4.0.0/assets/js/vendor/popper.min.js"></script>
+    <script src="../bootstrap-4.0.0/dist/js/bootstrap.min.js"></script>
+
+	</body>
+</html>

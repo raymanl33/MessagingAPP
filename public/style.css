@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    text-decoration: none;
   }
    
   body {
@@ -11,7 +12,7 @@
 
   ul {
     list-style-type: none;
-    text-align: right;
+    /* text-align: right; */
   }
 
   h1 {
@@ -51,6 +52,8 @@
   #menu {
     padding: 15px 25px;
     display: flex;
+    justify-content: center;
+    justify-content: space-evenly;
   }
 
   #user {
